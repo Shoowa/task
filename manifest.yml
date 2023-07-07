@@ -52,9 +52,8 @@ metadata:
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
-  ingressClassName: counter-example
   rules:
-    - host: counter.info
+    - host: "counter.info"
       http:
         paths:
         - path: /hit

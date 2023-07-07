@@ -40,9 +40,10 @@
 ~/task $ kubectl delete -f manifest.yml
 ```
 
-## Open Minikube tunnel on MacOS
+## Expose Minikube cluster on MacOS
 ```bash
-~/task $ minikube tunnel
+~/ $ echo '127.0.0.1 counter.info' | sudo tee -a /etc/hosts
+~/ $ minikube tunnel
 ```
 
 ## View logs of app
