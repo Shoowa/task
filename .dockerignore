@@ -1,0 +1,6 @@
+.git
+__pycache__
+*.md
+*.redis
+sample
+*.yml
