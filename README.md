@@ -25,3 +25,27 @@
 ```bash
 ~/task $ curl localhost:8080/
 ```
+
+## Migrate container image to Minikube repo
+```bash
+~/task $ minikube image load tasky:beta
+~/task $ minikube image ls | grep task 
+```
+
+## Ignite digital service inside Minikube
+```bash
+~/task $ kubectl apply -f manifest.yml
+~/task $ kubectl -n default get all
+~/task $ kubectl -n default get ingress
+~/task $ kubectl delete -f manifest.yml
+```
+
+## Open Minikube tunnel on MacOS
+```bash
+~/task $ minikube tunnel
+```
+
+## View logs of app
+```bash
+~/task $ kubectl logs -f -l app=counter --all-containers
+```

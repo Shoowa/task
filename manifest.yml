@@ -1,0 +1,66 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: default
+  name: counter-deployment
+  labels:
+    app: counter
+spec:
+  replicas: 3
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  selector:
+    matchLabels:
+      app: counter
+  template:
+    metadata:
+      labels:
+        app: counter
+    spec:
+      restartPolicy: Always
+      containers:
+        - name: counter
+          image: tasky:beta
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8080
+              name: http-counter
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: default
+  name: counter-service
+spec:
+  selector:
+    app: counter
+  ports:
+    - name: counter-lb
+      protocol: TCP
+      port: 8000
+      targetPort: http-counter
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  namespace: default
+  name: big-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  ingressClassName: counter-example
+  rules:
+    - host: counter.info
+      http:
+        paths:
+        - path: /hit
+          pathType: Prefix
+          backend:
+            service:
+              name: counter-service
+              port:
+                number: 8000
